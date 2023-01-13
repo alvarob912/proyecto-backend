@@ -13,7 +13,7 @@ router.get("/:cid", async (req, res) => {
     } else {
         res.json({
         status: "success",
-        data: await manager.getItemById(cid),
+        data: await manager.getProductById(cid),
         });
     }
 });
