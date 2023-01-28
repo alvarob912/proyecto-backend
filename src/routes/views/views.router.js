@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const ProductManager = require("../../manager")
+const ProductManager = require("../../daos/fileManager/manager")
 const uploader = require("../../utils")
 
 
