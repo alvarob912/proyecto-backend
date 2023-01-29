@@ -4,7 +4,7 @@ const handlebars = require("express-handlebars")
 const path = require('path')
 const viewsRoutes = require('./routes/views/views.router')
 const {Server} = require("socket.io")
-const mongoose = require ("mongoose");
+require('./config/dbConfig')
 
 const PORT = process.env.PORT || 8080; 
 const app = express()
@@ -17,7 +17,7 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 app.use('/', viewsRoutes)
 app.use('/statics', express.static(path.resolve(__dirname, './public')))
-mongoose.set('strictQuery', false);
+
 
 
 const httpServer = app.listen(PORT, () => {
@@ -29,9 +29,10 @@ const socketServer = new Server(httpServer);
 socketServer.on('connection', socket =>{
     console.log("Nuevo cliente conectado")
     app.set('socket', socket)
+    app.set('io', io)
+    socket.on('login', user =>{
+        socket.emit('welcome', user)
+        socket.broadcast.emit('new-user', user)
+    })
 })
 
-mongoose.connect("mongodb+srv://admin:12345@ecommerce.koayiwg.mongodb.net/ecommerce?retryWrites=true&w=majority",(err)=>{
-    if(err) return console.log(`Hubo un error al conectarse a la base de datos ${err}`);
-    console.log("conexion a la base de datos exitosa")
-});

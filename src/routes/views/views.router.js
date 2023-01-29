@@ -1,6 +1,8 @@
 const {Router} = require("express")
 const ProductManager = require("../../daos/fileManager/manager")
 const uploader = require("../../utils")
+const messageModel = require('../../models/message.models')
+const productModel = require('../../models/products.models')
 
 
 const router = Router()
@@ -60,6 +62,25 @@ router.post('/realtimeproducts', uploader.array('files'), async (req, res)=>{
         status: 'success'
     })
 })
+
+
+router.get('/', async (req, res) => {
+    const products = await productModel.find().lean()
+    res.render('index', {
+        title: "E-commerce",
+        products
+    })
+})
+
+router.get('/chat', async (req,res)=>{
+    const messages = await messageModel.find().lean()
+    res.render('chat', {
+        title: "Super Chat!",
+        messages})
+})
+
+
+
 
 module.exports = router
 
