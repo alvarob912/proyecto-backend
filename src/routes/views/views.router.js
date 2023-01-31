@@ -1,13 +1,14 @@
 const {Router} = require("express")
 const ProductManager = require("../../daos/fileManager/manager")
 const uploader = require("../../utils")
-const messageModel = require('../../models/message.models')
-const productModel = require('../../models/products.models')
+
+const messageModel = require('../../daos/models/message.models')
+const productModel = require('../../daos/models/products.models')
 
 
-const router = Router()
+const router = Router();
 
-const productManager = new ProductManager('./src/data/Product.json')
+const productManager = new ProductManager('./src/data/products.json')
 
 router.get('/', async (req, res)=>{
     const products = await productManager.getProducts()

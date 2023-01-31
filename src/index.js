@@ -26,7 +26,7 @@ const httpServer = app.listen(PORT, () => {
 
 const socketServer = new Server(httpServer);
 
-socketServer.on('connection', socket =>{
+socketServer.on('connection', (socket) =>{
     console.log("Nuevo cliente conectado")
     app.set('socket', socket)
     app.set('io', io)
@@ -34,5 +34,7 @@ socketServer.on('connection', socket =>{
         socket.emit('welcome', user)
         socket.broadcast.emit('new-user', user)
     })
-})
+    })
+
+
 
